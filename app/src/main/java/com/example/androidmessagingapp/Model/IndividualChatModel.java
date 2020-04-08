@@ -3,55 +3,57 @@ package com.example.androidmessagingapp.Model;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import com.example.androidmessagingapp.Dao.AllChatSummaryDao;
+
+import com.example.androidmessagingapp.Dao.IndividualChatDao;
 import com.example.androidmessagingapp.Database.ChatDatabase;
-import com.example.androidmessagingapp.Entity.AllChatSummaryEntity;
+import com.example.androidmessagingapp.Entity.IndividualChatEntity;
+
 import java.util.Date;
 import java.util.List;
 
-public class AllChatSummaryModel {
+public class IndividualChatModel {
 
     private String TAG = this.getClass().getSimpleName();
-    private AllChatSummaryDao allChatSummaryDao;
+    private IndividualChatDao individualChatDao;
     private ChatDatabase chatDatabase;
-    private LiveData<List<AllChatSummaryEntity>> allChatList;
+    private LiveData<List<IndividualChatEntity>> individualChatList;
 
-    public AllChatSummaryModel(@NonNull Context context){
+    public IndividualChatModel(@NonNull Context context){
         chatDatabase = ChatDatabase.getChatDatabase(context);
-        allChatSummaryDao = chatDatabase.allChatSummaryDao();
-        allChatList = allChatSummaryDao.getAllChats();
+        individualChatDao = chatDatabase.individualChatDao();
     }
 
 
-    public void insert(AllChatSummaryEntity allChatSummaryEntity){
+    public void insert(IndividualChatEntity individualChatEntity){
         Log.i(TAG,"Inside insert method");
-        allChatSummaryEntity.setSmsTimestamp(new Date());
-        new InsertAsyncTask(allChatSummaryDao).execute(allChatSummaryEntity);
+        individualChatEntity.setSmsTimestamp(new Date());
+        new InsertAsyncTask(individualChatDao).execute(individualChatEntity);
     }
 
-    private class InsertAsyncTask extends AsyncTask<AllChatSummaryEntity, Void, Void> {
+    private class InsertAsyncTask extends AsyncTask<IndividualChatEntity, Void, Void> {
 
-        AllChatSummaryDao allChatSummaryDao;
+        IndividualChatDao individualChatDao;
 
-        public InsertAsyncTask(AllChatSummaryDao allChatSummaryDao){
-                this.allChatSummaryDao = allChatSummaryDao;
+        public InsertAsyncTask(IndividualChatDao individualChatDao){
+                this.individualChatDao = individualChatDao;
         }
 
         @Override
-        protected Void doInBackground(AllChatSummaryEntity... allChatSummaryEntities) {
+        protected Void doInBackground(IndividualChatEntity... individualChatEntities) {
             Log.i(TAG,"Background insertion running");
 
-            allChatSummaryDao.insert(allChatSummaryEntities[0]);
+            individualChatDao.insert(individualChatEntities[0]);
             return null;
         }
     }
 
-    public LiveData<List<AllChatSummaryEntity>> getAllChats(){
-        allChatList = allChatSummaryDao.getAllChats();
-        Log.i(TAG, allChatList.toString());
-        return allChatList;
+    public LiveData<List<IndividualChatEntity>> getAllChats(String contactNumber){
+        individualChatList = individualChatDao.getAllChats(contactNumber);
+        Log.i(TAG, individualChatList.toString());
+        return individualChatList;
     }
 
 }

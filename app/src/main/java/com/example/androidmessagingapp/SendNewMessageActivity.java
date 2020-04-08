@@ -15,7 +15,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.androidmessagingapp.Entity.AllChatSummaryEntity;
+import com.example.androidmessagingapp.Entity.IndividualChatEntity;
 import com.example.androidmessagingapp.Model.AllChatSummaryModel;
+import com.example.androidmessagingapp.Model.IndividualChatModel;
+
+import java.util.Date;
 
 public class SendNewMessageActivity extends AppCompatActivity {
 
@@ -23,6 +27,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
     EditText messageBodyET;
     Button sendMsgButton;
     private AllChatSummaryModel allChatSummaryModel;
+    private IndividualChatModel individualChatModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,8 @@ public class SendNewMessageActivity extends AppCompatActivity {
         messageBodyET = (EditText)findViewById(R.id.typeMessageET);
         sendMsgButton = (Button)findViewById(R.id.sendMessageButton);
 
-        allChatSummaryModel = new ViewModelProvider(this).get(AllChatSummaryModel.class);
+        allChatSummaryModel = new AllChatSummaryModel(getApplication());
+        individualChatModel = new IndividualChatModel(getApplication());
 
     }
 
@@ -48,11 +54,16 @@ public class SendNewMessageActivity extends AppCompatActivity {
         sms.sendTextMessage(contact,null,messageBody,pi,null);
 
 
-        AllChatSummaryEntity allChatSummaryEntity = new AllChatSummaryEntity(1,contact,messageBody,"sent");
+        AllChatSummaryEntity allChatSummaryEntity = new AllChatSummaryEntity(contact,messageBody,"sent");
         allChatSummaryModel.insert(allChatSummaryEntity);
+
+        IndividualChatEntity individualChatEntity = new IndividualChatEntity(contact,messageBody,"sent");
+        individualChatModel.insert(individualChatEntity);
 
         Toast.makeText(this, "Message Sent", Toast.LENGTH_LONG);
 
-
+        Intent i = new Intent(SendNewMessageActivity.this, IndividualChatActivity.class);
+        i.putExtra("contactNumber",contact);
+        startActivity(i);
     }
 }

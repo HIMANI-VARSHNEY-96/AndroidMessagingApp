@@ -3,23 +3,26 @@ package com.example.androidmessagingapp.Entity;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.androidmessagingapp.Helper.TimeStampConverter;
+
+import java.util.Date;
 
 @Entity(tableName = "AllChatSummary")
 public class AllChatSummaryEntity {
 
-    public AllChatSummaryEntity(int id, String contactName, String lastMessage, String smsType) {
-        this.id = id;
-        this.contactName = contactName;
+    public AllChatSummaryEntity(String contactName, String lastMessage, String smsType) {
+
+        if(contactName.startsWith("+91")) {
+            this.contactName = contactName.substring(3);
+        }else if(contactName.startsWith("0")){
+            this.contactName = contactName.substring(1);
+        }else{
+            this.contactName = contactName;
+        }
         this.lastMessage = lastMessage;
         this.smsType = smsType;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getContactName() {
@@ -46,13 +49,20 @@ public class AllChatSummaryEntity {
         this.smsType = smsType;
     }
 
-    @PrimaryKey(autoGenerate = true)
-    @NonNull
-    private int id;
+    public Date getSmsTimestamp() {
+        return smsTimestamp;
+    }
 
+    public void setSmsTimestamp(Date smsTimestamp) {
+        this.smsTimestamp = smsTimestamp;
+    }
+
+    @PrimaryKey
+    @NonNull
     private String contactName;
     private String lastMessage;
     private String smsType;
 
-
+    @TypeConverters({TimeStampConverter.class})
+    private Date smsTimestamp;
 }
