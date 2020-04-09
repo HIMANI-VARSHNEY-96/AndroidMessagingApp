@@ -24,11 +24,11 @@ import java.util.Date;
 import java.util.List;
 
 public class IndividualChatAdapter extends RecyclerView.Adapter<IndividualChatAdapter.IndividualChatViewHolder> {
-    private List<IndividualChatModel> individualChatModels;
     private LayoutInflater layoutInflater;
     private Context mContext;
     private List<IndividualChatEntity> individualChatList;
 
+    private static final String SMS_TYPE = "sent";
     public IndividualChatAdapter(Context context){
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
@@ -101,7 +101,7 @@ public class IndividualChatAdapter extends RecyclerView.Adapter<IndividualChatAd
             this.indiVidualChatElement = current;
 
             String smsType = current.getSmsType();
-            if(smsType.equals("sent")){
+            if(smsType.equals(SMS_TYPE)){
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT

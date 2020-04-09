@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.androidmessagingapp.Adapter.AllChatSummaryAdapter;
 import com.example.androidmessagingapp.Adapter.IndividualChatAdapter;
 import com.example.androidmessagingapp.Entity.AllChatSummaryEntity;
 import com.example.androidmessagingapp.Entity.IndividualChatEntity;
@@ -75,11 +73,9 @@ public class IndividualChatActivity extends AppCompatActivity {
     public void sendMessage(View view){
         String messageBody = messageBodyET.getText().toString();
 
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-        PendingIntent pi= PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
         SmsManager sms = SmsManager.getSmsManagerForSubscriptionId(SubscriptionManager.getDefaultSubscriptionId());
-        Log.i("SendmEssage","SubscriptionManager.getDefaultSmsSubscriptionId "+SubscriptionManager.getDefaultSubscriptionId());
-        sms.sendTextMessage(contactNumber,null,messageBody,pi,null);
+        Log.i(TAG,"SubscriptionManager.getDefaultSmsSubscriptionId "+SubscriptionManager.getDefaultSubscriptionId());
+        sms.sendTextMessage(contactNumber,null,messageBody,null,null);
 
 
         AllChatSummaryEntity allChatSummaryEntity = new AllChatSummaryEntity(contactNumber,messageBody,"sent");

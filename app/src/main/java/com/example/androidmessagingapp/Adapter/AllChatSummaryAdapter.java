@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidmessagingapp.Entity.AllChatSummaryEntity;
-import com.example.androidmessagingapp.Model.AllChatSummaryModel;
 import com.example.androidmessagingapp.R;
 
 import java.text.DateFormat;

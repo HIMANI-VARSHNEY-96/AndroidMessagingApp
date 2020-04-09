@@ -1,9 +1,7 @@
 package com.example.androidmessagingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -19,8 +17,6 @@ import com.example.androidmessagingapp.Entity.IndividualChatEntity;
 import com.example.androidmessagingapp.Model.AllChatSummaryModel;
 import com.example.androidmessagingapp.Model.IndividualChatModel;
 
-import java.util.Date;
-
 public class SendNewMessageActivity extends AppCompatActivity {
 
     EditText recieverContactET;
@@ -28,6 +24,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
     Button sendMsgButton;
     private AllChatSummaryModel allChatSummaryModel;
     private IndividualChatModel individualChatModel;
+    private String TAG = this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +44,9 @@ public class SendNewMessageActivity extends AppCompatActivity {
         String contact = recieverContactET.getText().toString();
         String messageBody = messageBodyET.getText().toString();
 
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-        PendingIntent pi= PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
         SmsManager sms = SmsManager.getSmsManagerForSubscriptionId(SubscriptionManager.getDefaultSubscriptionId());
-        Log.i("SendmEssage","SubscriptionManager.getDefaultSmsSubscriptionId "+SubscriptionManager.getDefaultSubscriptionId());
-        sms.sendTextMessage(contact,null,messageBody,pi,null);
+        Log.i(TAG,"SubscriptionManager.getDefaultSmsSubscriptionId "+SubscriptionManager.getDefaultSubscriptionId());
+        sms.sendTextMessage(contact,null,messageBody,null,null);
 
 
         AllChatSummaryEntity allChatSummaryEntity = new AllChatSummaryEntity(contact,messageBody,"sent");
@@ -65,5 +60,7 @@ public class SendNewMessageActivity extends AppCompatActivity {
         Intent i = new Intent(SendNewMessageActivity.this, IndividualChatActivity.class);
         i.putExtra("contactNumber",contact);
         startActivity(i);
+
+        finish();
     }
 }

@@ -5,9 +5,22 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/noChatFoundTV"
+        android:textSize="@dimen/chat_text_size"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/allChatSummaryRecyclerView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
